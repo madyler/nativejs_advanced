@@ -1,16 +1,17 @@
 import React from 'react';
 import CurrencyExchange from '../../components/CurrencyExchange/CurrencyExchange';
-import { CurrencyState, CurrencyType } from '../../redux/currencyReducer';
-import { Dispatch } from 'redux';
+import {CurrencyType} from '../../redux/currencyReducer';
+import {Dispatch} from 'redux';
 import {
     ChangeActionAC,
     ChangeCurrencyFieldAC,
-    СhangeCurrentCurrencyAC,
-    CurrencyReducersTypes
+    CurrencyReducersTypes,
+    ChangeCurrentCurrencyAC
 } from '../../redux/actions';
-import {connect, ConnectedProps, useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectAllState} from "../../redux/selectors";
 
-const CurrencyEContainer: React.FC<TProps> = props => {
+const CurrencyEContainer: React.FC = () => {
 
     const {
         currencies,
@@ -18,9 +19,10 @@ const CurrencyEContainer: React.FC<TProps> = props => {
         isBuying,
         amountOfBYN,
         amountOfCurrency,
-        } = props;
+    } = useSelector(selectAllState);
 
     const dispatch = useDispatch<Dispatch<CurrencyReducersTypes>>()
+
 
     let currencyRate: number = 0;
     const currenciesName = currencies.map((currency: CurrencyType) => {
@@ -55,7 +57,7 @@ const CurrencyEContainer: React.FC<TProps> = props => {
     };
 
     const changeCurrentCurrency = (e: React.MouseEvent<HTMLLIElement>) => {
-        e.currentTarget.dataset.currency && dispatch(СhangeCurrentCurrencyAC(e.currentTarget.dataset.currency));
+        e.currentTarget.dataset.currency && dispatch(ChangeCurrentCurrencyAC(e.currentTarget.dataset.currency));
     };
 
     return (
@@ -75,20 +77,6 @@ const CurrencyEContainer: React.FC<TProps> = props => {
     );
 };
 
-const mapStateToProps = ( { currency } : {currency: CurrencyState} ): CurrencyState => {
-    return {
-        currencies: currency.currencies,
-        currentCurrency: currency.currentCurrency,
-        isBuying: currency.isBuying,
-        amountOfBYN: currency.amountOfBYN,
-        amountOfCurrency: currency.amountOfCurrency,
-    };
-};
 
-// @ts-ignore
-const connector = connect(mapStateToProps, {});
-
-type TProps = ConnectedProps<typeof connector>;
-
-export default connector(CurrencyEContainer);
+export default CurrencyEContainer
 
