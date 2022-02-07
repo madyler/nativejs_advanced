@@ -23,7 +23,6 @@ const CurrencyEContainer: React.FC = () => {
 
     const dispatch = useDispatch<Dispatch<CurrencyReducersTypes>>()
 
-
     let currencyRate: number = 0;
     const currenciesName = currencies.map((currency: CurrencyType) => {
         if (currency.currencyName === currentCurrency) {
@@ -51,14 +50,14 @@ const CurrencyEContainer: React.FC = () => {
                 }
             }
         }
-    };
+    }
     const changeAction = (e: React.MouseEvent<HTMLSpanElement>) => {
         e.currentTarget.dataset.action === 'buy' ? dispatch(ChangeActionAC(true)) : dispatch(ChangeActionAC(false));
-    };
+    }
 
     const changeCurrentCurrency = (e: React.MouseEvent<HTMLLIElement>) => {
         e.currentTarget.dataset.currency && dispatch(ChangeCurrentCurrencyAC(e.currentTarget.dataset.currency));
-    };
+    }
 
     return (
         <React.Fragment>
